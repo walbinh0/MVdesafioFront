@@ -3,14 +3,23 @@ import { TextField, Button, Switch, FormControlLabel } from "@material-ui/core";
 
 function FormularioCadastro({aoEnviar, validarCPF}) {
   const [nome, setNome] = useState("");
-  const [café, setCafé] = useState("");
+  const [cafe, setCafe] = useState("");
   const [cpf, setCpf] = useState("");
   const [erros, setErros] = useState({cpf:{valido:true, texto:""}})
+  const [listaDeCafe, setListaDeCafe] = useState([]);
+  function listinha(){
+    setNome("")
+    setCafe("")
+    setCpf("")
+  }
   return (
+    <>
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        aoEnviar({nome, café, cpf});
+        setListaDeCafe([...listaDeCafe,{nome:nome, cafe:cafe, cpf:cpf}])
+        aoEnviar({nome, cafe: cafe, cpf});
+        listinha()
       }}
     >
       <TextField
@@ -25,12 +34,12 @@ function FormularioCadastro({aoEnviar, validarCPF}) {
         fullWidth
       />
       <TextField
-        value={café}
+        value={cafe}
         onChange={(event) => {
-          setCafé(event.target.value);
+          setCafe(event.target.value);
         }}
-        id="café"
-        label="café"
+        id="Café"
+        label="Café"
         variant="outlined"
         margin="normal"
         fullWidth
@@ -58,6 +67,14 @@ function FormularioCadastro({aoEnviar, validarCPF}) {
         Cadastrar
       </Button>
     </form>
+    {listaDeCafe.map((cafe)=>{
+      return <ul>
+        <li>{cafe.nome}</li>
+        <li>{cafe.cafe}</li>
+        <li>{cafe.cpf}</li>
+      </ul>
+    })}
+    </>
   );
 }
 
